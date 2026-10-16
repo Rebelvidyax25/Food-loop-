@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b4d">
+  <meta name="description" content="FoodLoop helps donors and verified community organizations coordinate safe food pickups.">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <title>FoodLoop — Share good food</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="FoodLoop home">
+      <span class="brand-mark" aria-hidden="true">F</span>
+      <span>FoodLoop</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav id="main-nav" aria-label="Main navigation">
+      <a href="#home" data-view="home" class="nav-link active">Home</a>
+      <a href="#donate" data-view="donate" class="nav-link">Donate Food</a>
+      <a href="#find" data-view="find" class="nav-link">Find Food</a>
+      <a href="#tracking" data-view="tracking" class="nav-link">Pickup Tracking</a>
+      <a href="#impact" data-view="impact" class="nav-link">Impact</a>
+      <a href="#admin" data-view="admin" class="nav-link">Admin</a>
+    </nav>
+    <div class="account-switcher" id="demo-switcher">
+      <label for="role-select">Demo role</label>
+      <select id="role-select" aria-label="Switch demo role">
+        <option value="donor">Donor</option>
+        <option value="recipient">Recipient</option>
+        <option value="admin">Admin</option>
+      </select>
+      <select id="identity-select" aria-label="Choose demo identity"></select>
+    </div>
+    <div class="account-switcher hidden" id="auth-panel">
+      <label for="login-email">Signed out</label>
+      <button class="button button-small" id="open-login">Sign in</button>
+      <button class="button button-small button-quiet" id="sign-out">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="mode-banner" class="mode-banner" role="status"></div>
+    <section class="view active" id="view-home" aria-labelledby="home-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Good food deserves a good next stop</p>
+          <h1 id="home-title">Share more.<br><span>Waste less.</span></h1>
+          <p class="hero-intro">FoodLoop helps food donors connect with verified community organizations for timely, safe pickups.</p>
+          <div class="button-row">
+            <button class="button" data-go="donate">Donate food</button>
+            <button class="button button-outline" data-go="find">Find food</button>
+          </div>
+          <p class="small muted">A coordination prototype. FoodLoop does not certify food safety.</p>
+        </div>
+        <div class="hero-illustration" aria-label="Illustration of a food box">
+          <div class="sun"></div>
+          <div class="leaf leaf-one"></div>
+          <div class="leaf leaf-two"></div>
+          <div class="food-box"><span>GOOD<br>FOOD</span><i></i></div>
+          <div class="illustration-caption">From surplus to shared</div>
+        </div>
+      </div>
+      <div class="stats-grid home-stats" id="home-stats" aria-live="polite"></div>
+      <section class="section-block">
+        <div class="section-heading">
+          <div><p class="eyebrow">Simple, human, local</p><h2>How FoodLoop works</h2></div>
+          <p>Clear steps keep good food moving to organizations that can use it.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step-card"><span class="step-number">01</span><h3>List surplus food</h3><p>Share the quantity, preparation time, storage details, allergens and a safe pickup deadline.</p></article>
+          <article class="step-card"><span class="step-number">02</span><h3>Find a good match</h3><p>Eligible organizations see transparent, rule-based match rankings and request a pickup.</p></article>
+          <article class="step-card"><span class="step-number">03</span><h3>Confirm handover</h3><p>Track acceptance and pickup, then confirm the handover to record community impact.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section class="view page-view" id="view-donate" aria-labelledby="donate-title">
+      <div class="page-heading"><p class="eyebrow">For food donors</p><h1 id="donate-title">Post a donation</h1><p>Share accurate details so an organization can decide whether it can safely collect.</p></div>
+      <form id="donation-form" class="panel form-grid">
+        <label>Food name<input name="title" required minlength="2" maxlength="100" placeholder="e.g. Vegetable rice bowls"></label>
+        <label>Food category<select name="category" required><option value="">Choose a category</option><option>Prepared Meals</option><option>Produce</option><option>Bakery</option><option>Dairy</option><option>Packaged Food</option><option>Other</option></select></label>
+        <label class="span-two">Description <span class="optional">(optional)</span><textarea name="description" maxlength="1000" rows="3" placeholder="Ingredients, packaging or other helpful details"></textarea></label>
+        <label>Quantity<input name="quantity" type="number" min="0.01" step="0.01" required placeholder="30"></label>
+        <label>Unit<input name="unit" required maxlength="30" placeholder="portions"></label>
+        <label>Prepared at<input name="prepared_at" type="datetime-local" required></label>
+        <label>Pickup deadline<input name="pickup_deadline" type="datetime-local" required></label>
+        <label class="span-two">Pickup location<input name="location" required minlength="2" maxlength="200" placeholder="Campus canteen, Demo City"></label>
+        <label class="span-two check-label"><input name="donor_confirms_edible" type="checkbox" required checked> I confirm this food is edible, unspoiled and suitable for donation.</label>
+        <label class="span-two">Storage conditions<textarea name="storage_conditions" required minlength="3" maxlength="500" rows="2" placeholder="Describe how food has been stored"></textarea></label>
+        <fieldset class="span-two allergen-field">
+          <legend>Allergen information</legend>
+          <label class="check-label"><input name="allergen_info_known" type="checkbox" checked> Known allergens are listed</label>
+          <label>Known allergens, comma-separated<input name="allergens" placeholder="e.g. peanuts, milk"></label>
+          <p class="form-hint">If you do not know, uncheck the box. The listing will require a human review and cannot be claimed yet.</p>
+        </fieldset>
+        <details class="span-two optional-fields">
+          <summary>Optional quantity limits and coordinates</summary>
+          <div class="form-grid compact-grid">
+            <label>Minimum pickup quantity<input name="minimum_quantity" type="number" min="0.01" step="0.01"></label>
+            <label>Maximum pickup quantity<input name="maximum_quantity" type="number" min="0.01" step="0.01"></label>
+            <label>Latitude<input name="latitude" type="number" min="-90" max="90" step="any" placeholder="12.9716"></label>
+            <label>Longitude<input name="longitude" type="number" min="-180" max="180" step="any" placeholder="77.5946"></label>
+          </div>
+          <p class="form-hint">Only enter coordinates you know to be accurate; the list works without a map.</p>
+        </details>
+        <div class="span-two form-footer"><p class="small muted">Safety review status is informational; the platform does not certify food.</p><button class="button" type="submit">Publish donation</button></div>
+      </form>
+    </section>
+
+    <section class="view page-view" id="view-find" aria-labelledby="find-title">
+      <div class="page-heading"><p class="eyebrow">For verified organizations</p><h1 id="find-title">Find food</h1><p>Browse active listings and see why an organization may be a suitable pickup match.</p></div>
+      <form class="filter-bar panel" id="filter-form">
+        <label class="search-field">Search<input name="search" placeholder="Food, category or location"></label>
+        <label>Category<select name="category"><option value="">All categories</option><option>Prepared Meals</option><option>Produce</option><option>Bakery</option><option>Dairy</option><option>Packaged Food</option><option>Other</option></select></label>
+        <label>Location<input name="location" placeholder="Any location"></label>
+        <label>Minimum quantity<input name="minimum_quantity" type="number" min="0" step="0.01" placeholder="Any"></label>
+        <label>Pickup before<input name="before_deadline" type="datetime-local"></label>
+        <label>Status<select name="status"><option value="">All active statuses</option><option value="AVAILABLE">Available</option><option value="REQUESTED">Requested</option><option value="ACCEPTED">Accepted</option><option value="READY_FOR_PICKUP">Ready for pickup</option><option value="EXPIRED">Expired</option></select></label>
+        <button class="button" type="submit">Apply filters</button>
+      </form>
+      <div class="results-heading"><h2>Donation board</h2><button class="button button-quiet" id="refresh-donations">Refresh</button></div>
+      <div id="donation-list" class="donation-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="view page-view" id="view-tracking" aria-labelledby="tracking-title">
+      <div class="page-heading"><p class="eyebrow">A clear handover, step by step</p><h1 id="tracking-title">Pickup tracking</h1><p>Follow requests through acceptance, pickup readiness and a confirmed handover.</p></div>
+      <div id="claims-list" class="stack-list" aria-live="polite"></div>
+    </section>
+
+    <section class="view page-view" id="view-impact" aria-labelledby="impact-title">
+      <div class="page-heading"><p class="eyebrow">Measured from donation records</p><h1 id="impact-title">Community impact</h1><p>Counts come from completed records. Estimated weight is a clearly labelled assumption, not a measured reduction in waste.</p></div>
+      <div id="impact-stats" class="stats-grid"></div>
+      <div class="impact-note panel" id="impact-note"></div>
+      <div class="section-heading recent-heading"><div><p class="eyebrow">Latest handovers</p><h2>Recent completed pickups</h2></div></div>
+      <div id="recent-activity" class="stack-list"></div>
+    </section>
+
+    <section class="view page-view" id="view-admin" aria-labelledby="admin-title">
+      <div class="page-heading"><p class="eyebrow">Administrative review</p><h1 id="admin-title">Admin dashboard</h1><p>Review organization verification, safety flags, active pickups and completed history.</p></div>
+      <div id="admin-content" class="admin-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <dialog id="login-dialog" class="login-dialog">
+    <form id="login-form" method="dialog">
+      <button class="dialog-close" type="button" id="close-login" aria-label="Close sign in">×</button>
+      <p class="eyebrow">Supabase account</p><h2>Sign in to FoodLoop</h2>
+      <p class="muted small">Your FoodLoop role and permissions are managed by your organization administrator.</p>
+      <label>Email<input name="email" type="email" autocomplete="username" required></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+      <button class="button" type="submit">Sign in</button>
+      <p class="form-hint" id="login-message" role="status"></p>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <footer><span class="brand-footer">FoodLoop</span><span>A coordination prototype · Food safety decisions remain with people</span></footer>
+</body>
+</html>
