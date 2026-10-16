@@ -2,6 +2,8 @@
 
 FoodLoop is a small food donation coordination prototype for a college hackathon. It connects donors with verified community organizations, shows explainable pickup matches, and tracks requests through a confirmed handover.
 
+**Temporary demo:** [Open FoodLoop](https://angels-purchases-hundreds-vessel.trycloudflare.com). This public tunnel only works while the host computer, app server and tunnel are running; it is not a permanent deployment. Demo role switching is not authentication, and demo data is temporary.
+
 **The application does not certify that food is safe.** Donors must provide accurate handling information and organizations must make their own decisions. Missing allergen/storage information and expired listings are not claimable.
 
 ## Problem and workflow
